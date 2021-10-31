@@ -1,0 +1,13 @@
+.navigation-container {
+  background-color: rgba(240, 221, 240, 0.685);
+}
+.items {
+  list-style: none;
+  text-decoration: none;
+  margin: 10px;
+  margin-top: 25px;
+  font-size: 25px;
+}
+.items:hover {
+  color: rgb(221, 5, 5);
+}

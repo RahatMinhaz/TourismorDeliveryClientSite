@@ -1,0 +1,13 @@
+.banner {
+  background-image: url("../../images/Banner.jpg");
+  height: 80vh;
+  width: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-blend-mode: overlay;
+}
+.bnr-txt {
+  color: #fff;
+  font-weight: 800;
+  font-size: 50px;
+}

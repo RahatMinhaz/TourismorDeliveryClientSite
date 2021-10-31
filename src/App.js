@@ -1,23 +1,58 @@
-import logo from './logo.svg';
 import './App.css';
+import MyOrders from './component/MyOrders/MyOrders';
+import LogIn from './component/LogIn/LogIn';
+import Register from './component/Register/Register';
+import NotFound from './component/NotFound/NotFound';
+import PrivateRoute from './component/PrivateRoute/PrivateRoute';
+import Home from './component/Home/Home';
+import AboutUs from './component/AboutUs/AboutUs';
+import AuthProvider from './context/AuthProvider';
+import Navigation from './component/Navigation/Navigation';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import Menu from './component/Menu/Menu';
+import Booking from './component/Booking/Booking';
+import Contacts from './component/Contacts/Contacts';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <AuthProvider>
+        <BrowserRouter>
+          <Navigation></Navigation>
+          <Switch>
+            <Route exact path="/">
+              <Home></Home>
+            </Route>
+            <Route path="/home">
+              <Home></Home>
+            </Route>
+            <PrivateRoute path="/menu">
+              <Menu></Menu>
+            </PrivateRoute>
+            <PrivateRoute path="/orders">
+              <MyOrders></MyOrders>
+            </PrivateRoute>
+            <PrivateRoute path="/booking/:serviceId">
+              <Booking></Booking>
+            </PrivateRoute>
+            <PrivateRoute path="/contacts">
+              <Contacts></Contacts>
+            </PrivateRoute>
+            <Route path="/about">
+              <AboutUs></AboutUs>
+            </Route>
+            <Route path="/login">
+              <LogIn></LogIn>
+            </Route>
+            <Route path="/registration">
+              <Register></Register>
+            </Route>
+            <Route path="*">
+              <NotFound></NotFound>
+            </Route>
+          </Switch>
+        </BrowserRouter>
+      </AuthProvider>
     </div>
   );
 }
