@@ -1,5 +1,8 @@
-.box-about {
-  margin-bottom: 30px;
-  border: 1px solid gray;
-  height: 580px;
+.container-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.distance {
+  margin-right: 50px;
 }

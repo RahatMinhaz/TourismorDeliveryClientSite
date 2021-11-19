@@ -5,13 +5,14 @@ import Register from './component/Register/Register';
 import NotFound from './component/NotFound/NotFound';
 import PrivateRoute from './component/PrivateRoute/PrivateRoute';
 import Home from './component/Home/Home';
-import AboutUs from './component/AboutUs/AboutUs';
 import AuthProvider from './context/AuthProvider';
 import Navigation from './component/Navigation/Navigation';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Menu from './component/Menu/Menu';
 import Booking from './component/Booking/Booking';
 import Contacts from './component/Contacts/Contacts';
+import ManageAllOrders from './component/ManageAllOrders/ManageAllOrders';
+import AddNewService from './component/AddNewService/AddNewService';
 
 function App() {
   return (
@@ -32,14 +33,17 @@ function App() {
             <PrivateRoute path="/orders">
               <MyOrders></MyOrders>
             </PrivateRoute>
+            <PrivateRoute path="/manage">
+              <ManageAllOrders></ManageAllOrders>
+            </PrivateRoute>
+            <PrivateRoute path="/addservice">
+              <AddNewService></AddNewService>
+            </PrivateRoute>
             <PrivateRoute path="/booking/:serviceId">
               <Booking></Booking>
             </PrivateRoute>
-            <PrivateRoute path="/contacts">
+            <Route path="/contacts">
               <Contacts></Contacts>
-            </PrivateRoute>
-            <Route path="/about">
-              <AboutUs></AboutUs>
             </Route>
             <Route path="/login">
               <LogIn></LogIn>

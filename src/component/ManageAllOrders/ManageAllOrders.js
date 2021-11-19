@@ -6,48 +6,40 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import useAuth from '../../hooks/useAuth';
 import Footer from '../Footer/Footer';
-import './MyOrders.css'
+import './ManageAllOrders.css'
 
 
+const ManageAllOrders = () => {
+    const [allOrders,setAllOrders] = useState([])
 
-const MyOrders = () => {
-    const {user} = useAuth();
-    const [orders,setOrders] = useState([]);
+    // Showing all user's order on UI
 
-    // Showing logged in user's order on UI
+        useEffect(() =>{
+            fetch('https://radiant-hollows-10826.herokuapp.com/usersinfo2')
+            .then(res => res.json())
+            .then(data => setAllOrders(data));
+        },[]);
 
-    useEffect(() =>{
-        const url= `https://radiant-hollows-10826.herokuapp.com/usersinfo?email=${user.email}`
-        fetch(url)
-        .then(res => res.json())
-        .then(data => setOrders(data));
-    },[])
+        // Deleting orders
 
-    // Delete an order
-
-    const handleDelete = id =>{
-        const proceed = window.confirm("Do you want to delete the order?");
-        if(proceed){
-            const url = `https://radiant-hollows-10826.herokuapp.com/usersinfo/${id}`;
-        fetch(url,{
-            method: 'DELETE'
-        })
-        .then(res => res.json())
-        .then(data => {
-            if (data.deletedCount > 0){
-                alert('item deleted')
-        const remainingItems = orders.filter(order => order._id !== id);
-        setOrders(remainingItems);
-            }
-        });
+        const handleDeleteOrder = id =>{
+            const url = `https://radiant-hollows-10826.herokuapp.com/usersinfo2/${id}`;
+            fetch(url,{
+                method: 'DELETE'
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.deletedCount > 0){
+                    alert('item deleted')
+            const remainingItems = allOrders.filter(order => order._id !== id);
+            setAllOrders(remainingItems);
+                }
+            });
         }
-    }
-
     return (
         <div>
-            <h2 className="mb-3">My Orders</h2>
+            <h2>Manage</h2>
             <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="Orders">
                 <TableHead>
@@ -61,7 +53,7 @@ const MyOrders = () => {
                     </TableRow>
                 </TableHead>
             <TableBody>
-                {orders.map((row) => (
+                {allOrders.map((row) => (
             <TableRow
                 key={row._id}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -74,7 +66,7 @@ const MyOrders = () => {
                 <TableCell align="right">{row.phone}</TableCell>
                 <TableCell align="right">{row.pizzaName}</TableCell>
                 <TableCell align="right">
-                    <button onClick={() => handleDelete(row._id)} className="btn         btn-primary">Cancel Order</button></TableCell>
+                    <button onClick={() => handleDeleteOrder(row._id)} className="btn         btn-primary">Delete Order</button></TableCell>
             </TableRow>
                 ))}
             </TableBody>
@@ -87,4 +79,4 @@ const MyOrders = () => {
     );
 };
 
-export default MyOrders;
+export default ManageAllOrders;

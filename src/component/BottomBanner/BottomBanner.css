@@ -1,0 +1,7 @@
+.verticalCenter {
+  display: "flex";
+  align-items: "center";
+  height: 400;
+  text-align: right;
+  margin-top: 80px;
+}

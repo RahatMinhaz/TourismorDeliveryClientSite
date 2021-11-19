@@ -1,68 +1,87 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { Form } from 'react-bootstrap';
+import { Link,useHistory,useLocation } from 'react-router-dom';
+import { Alert, Form, Spinner } from 'react-bootstrap';
 import './Register.css'
 import Footer from '../Footer/Footer';
+import useAuth from '../../hooks/useAuth';
 
 const Register = () => {
-    const[email,setEmail] = useState(' ');
-    const[password,setPassword] = useState(' ');
+    const [loginData, setLoginData] = useState ({});
+    const history = useHistory();
+    const location = useLocation();
     const[error,setError] = useState(' ');
-    const auth = getAuth();
+    const {user,registerUser,loading,authError} = useAuth();
 
-    const handleEmailChange = e =>{
-        setEmail(e.target.value);
+    const handleOnBlur = e =>{
+        const field = e.target.name;
+        const value = e.target.value;
+        const newLoginData = {...loginData};
+        newLoginData[field] = value;
+        setLoginData(newLoginData);
     }
 
-    const handlePasswordChange = e =>{
-        setPassword(e.target.value);
-    }
-    const handleRegistration = e =>{
-        e.preventDefault();
-        console.log(email,password);
-        if(password.length < 6){
+    const handleLoginSubmit = e =>{
+        if(loginData.password !== loginData.password2){
+            alert("password didn't match");
+            return
+        }
+        if(loginData.password.length < 6){
             setError("Password must be at least 6 characters long");
             return;
         }
-        createUserWithEmailAndPassword(auth,email,password)
-        .then(result => {
-            const user = result.user;
-            console.log(user);
-            setError(' ');
-        })
-        .catch(error => {
-            setError(error.message);
-        })
+        registerUser(loginData.email,loginData.password,loginData.name,location,history);
+        e.preventDefault();
     }
+
     return (
 <div>
 <div className = "reg-form">
             <div>
             <h2>Register Here</h2>
-            <Form onSubmit={handleRegistration}>
-                <Form.Group className="mb-3" controlId="text">
+            <div className="container">
+            { !loading &&
+                <Form onSubmit={handleLoginSubmit}>
+                <Form.Group className="mb-3">
                 <Form.Label>User Name</Form.Label>
-                <Form.Control type="text" placeholder="Enter username" />
-                    </Form.Group>
-              <Form.Group className="mb-3" controlId="formBasicEmail">
+                <Form.Control type="text"
+                    name="name" placeholder="Enter User Name"
+                    onBlur={handleOnBlur}/>
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Email address</Form.Label>
-                <Form.Control type="email" required onBlur={handleEmailChange} placeholder="Enter email" />
-                <Form.Text className="text-muted">
-                  We'll never share your email with anyone else.
-                </Form.Text>
-              </Form.Group>
-                    
-              <Form.Group className="mb-3" controlId="formBasicPassword">
-                <Form.Label>Password</Form.Label>
-                <Form.Control type="password" required onBlur={handlePasswordChange} placeholder="Password" />
-              </Form.Group>
-              <Form.Group className="mb-3" controlId="formBasicPassword">
-                <Form.Label>Confirm Password</Form.Label>
-                <Form.Control type="password" required onBlur={handlePasswordChange} placeholder="Confirm Password" />
-                    </Form.Group>
-              <button className="btn btn-primary px-3">Register</button>
-            </Form> 
+                <Form.Control type="email"
+                    name="email" placeholder="Enter email"
+                    onBlur={handleOnBlur}/>
+                    <Form.Text className="text-muted">
+                    We'll never share your email with anyone else.
+                    </Form.Text>
+                </Form.Group>
+
+                <Form.Group className= "mb-3" controlId="formBasicPassword">
+                        <Form.Label>Password</Form.Label>
+                    <Form.Control type="password" name="password" onBlur={handleOnBlur} placeholder="Password" />
+                </Form.Group>
+                <Form.Group className= "mb-3" controlId="formBasicPassword">
+                        <Form.Label>Confirm Password</Form.Label>
+                    <Form.Control type="password" name="password2" onBlur={handleOnBlur} placeholder="Confirm Password" />
+                </Form.Group>
+            <button 
+            type= "submit" className="btn btn-primary mb-4">
+                Submit
+            </button>
+                </Form>}
+                {loading && <Spinner animation="border" />}
+                {user?.email && ['success',].map((variant, idx) => (
+                                    <Alert key={idx} variant={variant}>
+                                        Registered {variant}fully
+                                    </Alert>
+                        ))}
+                {authError && ['danger'].map((variant, idx) => (
+                                    <Alert key={idx} variant={variant}>
+                                        Account already exists!
+                                    </Alert>
+                        ))}
+            </div>
             <p className="pt-3">Already have an account? <Link to="/login">Log In here</Link></p>
             </div>
         </div>

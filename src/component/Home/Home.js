@@ -1,29 +1,25 @@
 import React, { useEffect, useState } from 'react';
+import { Spinner } from 'react-bootstrap';
 import { NavLink, Route } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
-import useOrders from '../../hooks/useOrders';
-import { addToDb } from '../../utilities/localDb';
+import AboutUs from '../AboutUs/AboutUs';
 import Banner from '../Banner/Banner';
+import BottomBanner from '../BottomBanner/BottomBanner';
 import FoodItems from '../FoodItems/FoodItems';
 import Footer from '../Footer/Footer';
 import './Home.css'
 
 const Home = () => {
     const[pizzas, setPizzas] = useState([]);
-    const [items, setItems] = useOrders(pizzas);
-    const [displayPizzas, setDisplayPizzas] = useState([]);
-    const {user} = useAuth();
+    const {user,loading} = useAuth();
     useEffect(() => {
-        fetch('https://radiant-hollows-10826.herokuapp.com/foods')
+        fetch('https://radiant-hollows-10826.herokuapp.com/foods2')
         .then(res => res.json())
         .then(data => setPizzas(data));
     },[]);
 
-    const handleOrders = (pizza) => {
-        const newOrders = [...items, pizza];
-        setItems(newOrders);
-        addToDb(pizza._id);
-    }
+    if(loading){return <Spinner animation="border" variant="primary" />}
+
     return (
         <div>
         <h2>{user.displayName}</h2>
@@ -40,20 +36,14 @@ const Home = () => {
                 {
                     pizzas.map((pizza) => (<div className = "col-lg-4"><div className = "pp"><FoodItems key ={pizza.id}
                     pizza={pizza}></FoodItems><Route><NavLink to={`/home/${pizza.id}`} activeStyle = {{ fontWeight:"bold", color: "red"}}></NavLink></Route>
-                    {
-                        displayPizzas.map(pizza => <FoodItems
-                            id={pizza._id}
-                            pizza={pizza}
-                            handleOrders={handleOrders}
-                        >
-                        </FoodItems>)
-                    }
                     </div></div>))
                 }
             </div>
         </div>
     </div>
-     <Footer></Footer> 
+        <BottomBanner></BottomBanner>
+        <AboutUs></AboutUs>
+        <Footer></Footer> 
 </div>
     );
 };

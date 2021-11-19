@@ -1,3 +1,8 @@
 .position {
   margin-top: 600px;
 }
+.log-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
