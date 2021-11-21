@@ -24,7 +24,10 @@ const ManageAllOrders = () => {
         // Deleting orders
 
         const handleDeleteOrder = id =>{
-            const url = `https://radiant-hollows-10826.herokuapp.com/usersinfo2/${id}`;
+            const proceed = window.confirm("Do you want to delete the order?");
+
+            if(proceed){
+                const url = `https://radiant-hollows-10826.herokuapp.com/usersinfo2/${id}`;
             fetch(url,{
                 method: 'DELETE'
             })
@@ -36,6 +39,7 @@ const ManageAllOrders = () => {
             setAllOrders(remainingItems);
                 }
             });
+            }
         }
     return (
         <div>
