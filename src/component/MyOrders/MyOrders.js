@@ -9,11 +9,13 @@ import Paper from '@mui/material/Paper';
 import useAuth from '../../hooks/useAuth';
 import Footer from '../Footer/Footer';
 import './MyOrders.css'
+import { Link } from 'react-router-dom';
+import { Spinner } from 'react-bootstrap';
 
 
 
 const MyOrders = () => {
-    const {user} = useAuth();
+    const {user,loading} = useAuth();
     const [orders,setOrders] = useState([]);
 
     // Showing logged in user's order on UI
@@ -44,7 +46,7 @@ const MyOrders = () => {
         });
         }
     }
-
+    if(loading){return <Spinner animation="border" variant="primary" />}
     return (
         <div>
             <h2 className="mb-3">My Orders</h2>
@@ -57,6 +59,7 @@ const MyOrders = () => {
                         <TableCell align="right">Present Address</TableCell>
                         <TableCell align="right">Phone</TableCell>
                         <TableCell align="right">Ordered Pizza</TableCell>
+                        <TableCell align="right">Payment</TableCell>
                         <TableCell align="right"></TableCell>
                     </TableRow>
                 </TableHead>
@@ -73,8 +76,9 @@ const MyOrders = () => {
                 <TableCell align="right">{row.address}</TableCell>
                 <TableCell align="right">{row.phone}</TableCell>
                 <TableCell align="right">{row.pizzaName}</TableCell>
+                <TableCell align="right">{row.payment ? 'Paid' : <Link to={`/pay/${row._id}`}><button className='btn btn-warning'>Pay</button></Link>}</TableCell>
                 <TableCell align="right">
-                    <button onClick={() => handleDelete(row._id)} className="btn         btn-primary">Cancel Order</button></TableCell>
+                    <button onClick={() => handleDelete(row._id)} className="btn btn-primary">Cancel Order</button></TableCell>
             </TableRow>
                 ))}
             </TableBody>

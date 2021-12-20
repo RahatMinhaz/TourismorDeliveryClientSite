@@ -9,6 +9,7 @@ const AddNewService = () => {
     const descRef = useRef();
     const imgRef = useRef();
     const customerRef = useRef();
+    const [bookingSucces,setBookingSuccess] = useState(false);
 
     // Getting data from database
 
@@ -40,6 +41,9 @@ const AddNewService = () => {
             const newUsers = [...addService, addedService]
             console.log(newUsers);
             setAddService(newUsers);
+            if(data){
+                setBookingSuccess(true);
+            }
         })
         e.preventDefault();
     }

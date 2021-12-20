@@ -8,10 +8,13 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Footer from '../Footer/Footer';
 import './ManageAllOrders.css'
+import useAuth from '../../hooks/useAuth';
+import { Spinner } from 'react-bootstrap';
 
 
 const ManageAllOrders = () => {
     const [allOrders,setAllOrders] = useState([])
+    const {loading} = useAuth();
 
     // Showing all user's order on UI
 
@@ -41,6 +44,7 @@ const ManageAllOrders = () => {
             });
             }
         }
+        if(loading){return <Spinner animation="border" variant="primary" />}
     return (
         <div>
             <h2>Manage</h2>

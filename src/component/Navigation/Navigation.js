@@ -42,6 +42,12 @@ const Navigation = () => {
                                     <li>Add a Service</li>
                                     </NavLink>
                                     :<NavLink to="/home"></NavLink>}
+                                    {
+                                        user?.email?
+                                        <NavLink activeStyle = {{fontweight: "bold", color: "red"}} to="/pay/:foodId" className="items">
+                                    <li>Payment</li>
+                                    </NavLink>
+                                    :<NavLink to="/home"></NavLink>}
                                     <NavLink activeStyle = {{fontweight: "bold", color: "red"}} to="/contacts" className="items">
                                     <li>Contacts</li>
                                     </NavLink>

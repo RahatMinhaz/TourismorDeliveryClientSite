@@ -13,6 +13,7 @@ import Booking from './component/Booking/Booking';
 import Contacts from './component/Contacts/Contacts';
 import ManageAllOrders from './component/ManageAllOrders/ManageAllOrders';
 import AddNewService from './component/AddNewService/AddNewService';
+import Payment from './component/Payment/Payment';
 
 function App() {
   return (
@@ -41,6 +42,9 @@ function App() {
             </PrivateRoute>
             <PrivateRoute path="/booking/:serviceId">
               <Booking></Booking>
+            </PrivateRoute>
+            <PrivateRoute path="/pay/:foodId">
+              <Payment></Payment>
             </PrivateRoute>
             <Route path="/contacts">
               <Contacts></Contacts>

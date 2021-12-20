@@ -29,6 +29,7 @@ const Booking = () => {
     const handleBookingSubmit = e =>{
         const order = {
             ...bookingInfo,
+            price: service.price,
             pizzaName: service.name
         }
 
@@ -86,6 +87,7 @@ const Booking = () => {
                     <Col>
                     <h2 className ="mb-5">Details of: {service?.name}</h2>
                     <h4 className = "mt-5 pb-5">{service?.desc}</h4>
+                    <h4 className = "mt-5 pb-5">Price: {service?.price} Taka</h4>
                     </Col>
                     <Col xs={6}>
                     <img className = "w-75 mb-3" src={service?.img} alt="" />
@@ -100,6 +102,8 @@ const Booking = () => {
                     name="email"
                     onBlur={handleOnBlur}
                     defaultValue={user.email}/>
+                    <h4>Price(Taka)</h4>
+                    <Form.Control disabled className='mb-3' type="text" defaultValue= {service?.price}/>
                     <Form.Control className="mb-3" type="text" placeholder="Your Phone" name="phone" onBlur={handleOnBlur} />
                     <Form.Control type="text" placeholder="Your Present Address" name="address" onBlur={handleOnBlur} />
                     <button onClick={handleBookingSubmit} type="submit"

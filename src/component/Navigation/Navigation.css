@@ -1,7 +1,8 @@
 .navigation-container {
-  background-color: rgba(240, 221, 240, 0.685);
+  background-color: rgba(129, 203, 221, 0.685);
 }
 .items {
+  transition: 0.2s;
   list-style: none;
   text-decoration: none;
   margin: 8px;
@@ -10,4 +11,7 @@
 }
 .items:hover {
   color: rgb(221, 5, 5);
+  background-color: rgb(8, 134, 173);
+  padding: 10px;
+  border-radius: 50%;
 }
